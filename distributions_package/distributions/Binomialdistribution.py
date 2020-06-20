@@ -125,13 +125,10 @@ class Binomial(Distribution):
             None
         """
         
-        objects = ["0", "1"]
-        y_pos = np.arange(len(objects))
-        plt.bar(y_pos, self.data)
-        plt.xticks(y_pos, objects)
-        plt.ylabel('Counts')
-        plt.title('Binomial distribution')
-
+        plt.bar(x = ['0', '1'], height = [(1 - self.p) * self.n, self.p * self.n])
+        plt.title('Bar Chart of Data')
+        plt.xlabel('outcome')
+        plt.ylabel('count')
         plt.show()
     
     
@@ -169,19 +166,22 @@ class Binomial(Distribution):
         
         #   Hint: You'll need to use the pdf() method defined above to calculate the
         #   density function for every value of k.
-        pdf_out = []
-        for k in range(n):
-            pdf_temp = pdf(self, k)
-            pdf_out = pdf_out.append(pdf_temp)
+        x = []
+        y = []
         
-        #   Be sure to label the bar chart with a title, x label and y label
-        x = list(range(n))
-        y = pdf_out
-        
-        plt.plot(x, y)
-        plt.xlabel('k')
-        plt.ylabel('pdf')
-        plt.title('Binomial distribution probability density function')
+        # calculate the x values to visualize
+        for i in range(self.n + 1):
+            x.append(i)
+            y.append(self.pdf(i))
+
+        # make the plots
+        plt.bar(x, y)
+        plt.title('Distribution of Outcomes')
+        plt.ylabel('Probability')
+        plt.xlabel('Outcome')
+
+        plt.show()
+
 
         #   This method should also return the x and y values used to make the chart
         #   The x and y values should be stored in separate lists
@@ -217,6 +217,8 @@ class Binomial(Distribution):
         result = Binomial()
         result.p = self.p 
         result.n = self.n + other.n
+        result.calculate_mean()
+        result.calculate_stdev()
         return result
         
                       
